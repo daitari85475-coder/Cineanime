@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b13">
+<meta name="description" content="CineAnime - Movies, series and anime in one place">
+<link rel="manifest" href="manifest.webmanifest">
+<title>CineAnime | Movies & Anime</title>
+<style>
+:root{--bg:#090b13;--panel:#141827;--panel2:#1b2235;--text:#f7f7fb;--muted:#aab2c5;--accent:#a78bfa;--pink:#f472b6}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#20213b 0,#090b13 48%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#090b13eF;backdrop-filter:blur(12px);border-bottom:1px solid #ffffff15;padding:14px clamp(14px,4vw,48px);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo{font-size:1.35rem;font-weight:900;letter-spacing:.3px}.logo span{color:var(--accent)}
+nav{display:flex;gap:8px}button,.tab{border:0;border-radius:999px;padding:10px 15px;background:var(--panel2);color:var(--text);font-weight:650;cursor:pointer}.tab.active,button.primary{background:linear-gradient(110deg,#8b5cf6,#db4fa8)}
+.search{margin-left:auto;min-width:180px;max-width:300px;flex:1;background:var(--panel);border:1px solid #ffffff20;border-radius:999px;padding:11px 15px;color:white}
+main{max-width:1240px;margin:auto;padding:22px clamp(14px,4vw,48px) 60px}
+.hero{min-height:260px;border-radius:24px;padding:clamp(22px,5vw,52px);display:flex;align-items:end;background:linear-gradient(90deg,#101426 0%,#101426cc 48%,#10142630),linear-gradient(135deg,#513a85,#172d50 55%,#a04a84);box-shadow:0 20px 70px #0008}
+.hero h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.02;margin:8px 0}.hero p{color:#e0dced;max-width:540px}
+.eyebrow{color:#d8c7ff;font-size:.8rem;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+section{margin-top:32px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.section-head h2{margin:0;font-size:1.35rem}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.filters button{font-size:.88rem}.filters button.active{outline:2px solid var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid #ffffff12;border-radius:16px;overflow:hidden;cursor:pointer;transition:.2s}.card:hover{transform:translateY(-4px);border-color:#a78bfa99}
+.poster{aspect-ratio:2/3;display:grid;place-items:center;text-align:center;padding:12px;background:linear-gradient(145deg,var(--c1),var(--c2));font-size:2.4rem}
+.poster small{display:block;font-size:.75rem;font-weight:800;letter-spacing:1px}
+.meta{padding:11px}.meta strong{display:block;font-size:.95rem}.meta small{color:var(--muted)}
+.notice{margin-top:26px;padding:15px 17px;border-radius:14px;background:#211c35;border:1px solid #9d82e455;color:#e7ddff;font-size:.9rem}
+footer{border-top:1px solid #ffffff18;padding:24px;text-align:center;color:var(--muted);font-size:.85rem}
+dialog{width:min(620px,calc(100% - 24px));border:1px solid #ffffff25;border-radius:20px;background:#111625;color:white;padding:0;box-shadow:0 20px 80px #000b}
+dialog::backdrop{background:#000b;backdrop-filter:blur(5px)}.modal{padding:22px}.modal-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.player{aspect-ratio:16/9;background:#05070d;border-radius:14px;display:grid;place-items:center;color:var(--muted);text-align:center;padding:20px;margin:16px 0}
+.close{background:#30384d}.empty{color:var(--muted);padding:25px;text-align:center}
+@media(max-width:600px){header{gap:10px}nav{order:3;width:100%;overflow:auto}.search{max-width:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.hero{min-height:230px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Cine<span>Anime</span></div>
+  <nav aria-label="मुख्य मेन्यू">
+    <button class="tab active" data-kind="all">सब</button>
+    <button class="tab" data-kind="movie">Movies</button>
+    <button class="tab" data-kind="series">Series</button>
+    <button class="tab" data-kind="anime">Anime</button>
+  </nav>
+  <input id="search" class="search" type="search" placeholder="नाम खोजें..." aria-label="Search">
+</header>
+<main>
+  <div class="hero">
+    <div><div class="eyebrow">एक जगह • मनोरंजन की दुनिया</div><h1>Watch your<br>next favourite.</h1>
+    <p>Movies, web series और anime खोजें। अपनी पसंद की सूची बनाएँ और अधिकृत वीडियो लिंक से देखें।</p>
+    <button class="primary" onclick="document.querySelector('#catalog').scrollIntoView({behavior:'smooth'})">Explore Library</button></div>
+  </div>
+  <section id="catalog">
+    <div class="section-head"><h2>Explore Library</h2><span id="count" style="color:var(--muted);font-size:.85rem"></span></div>
+    <div class="filters">
+      <button class="active" data-genre="all">All</button><button data-genre="Action">Action</button><button data-genre="Adventure">Adventure</button><button data-genre="Drama">Drama</button><button data-genre="Fantasy">Fantasy</button><button data-genre="Comedy">Comedy</button>
+    </div>
+    <div id="grid" class="grid"></div>
+  </section>
+  <div class="notice"><strong>Demo library:</strong> नीचे दिए गए नाम केवल उदाहरण हैं। वीडियो चलाने के लिए अपनी खुद की या लिखित अनुमति वाली वीडियो फ़ाइल/स्ट्रीम का URL जोड़ें। बिना अनुमति copyrighted फिल्में अपलोड न करें।</div>
+</main>
+<footer>© <span id="year"></span> CineAnime • Demo streaming catalogue</footer>
+<dialog id="detail"><div class="modal">
+  <div class="modal-top"><h2 id="detailTitle" style="margin:0"></h2><button class="close" id="close">✕</button></div>
+  <p id="detailMeta" style="color:var(--muted)"></p>
+  <div class="player" id="player">यहाँ अधिकृत वीडियो प्लेयर दिखाई देगा।</div>
+  <p id="detailDesc"></p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="primary" id="play">Play authorised video</button><button id="fav">♡ Favourite</button></div>
+  <p style="font-size:.8rem;color:var(--muted)">Demo में कोई copyrighted video शामिल नहीं है। Admin द्वारा वैध video URL जोड़ने के बाद ही playback होगा।</p>
+</div></dialog>
+<script>
+const items=[
+ {id:1,title:"Sample Movie One",kind:"movie",genre:"Action",year:2025,emoji:"🎬",c1:"#653a82",c2:"#d15b84",desc:"अपनी licensed movie का विवरण यहाँ लिखें।",url:""},
+ {id:2,title:"Sample Movie Two",kind:"movie",genre:"Drama",year:2024,emoji:"🌌",c1:"#1d5270",c2:"#6953a7",desc:"अपनी licensed movie का विवरण यहाँ लिखें।",url:""},
+ {id:3,title:"Sample Web Series",kind:"series",genre:"Adventure",year:2025,emoji:"🚀",c1:"#244d68",c2:"#6d3b87",desc:"अपनी licensed series का विवरण यहाँ लिखें।",url:""},
+ {id:4,title:"Sample Anime One",kind:"anime",genre:"Fantasy",year:2025,emoji:"🐉",c1:"#9b4b78",c2:"#343b82",desc:"अपने licensed anime का विवरण यहाँ लिखें।",url:""},
+ {id:5,title:"Sample Anime Two",kind:"anime",genre:"Action",year:2024,emoji:"⚔️",c1:"#285b61",c2:"#914d75",desc:"अपने licensed anime का विवरण यहाँ लिखें।",url:""},
+ {id:6,title:"Sample Anime Three",kind:"anime",genre:"Comedy",year:2023,emoji:"🌸",c1:"#a15b87",c2:"#5b68a5",desc:"अपने licensed anime का विवरण यहाँ लिखें।",url:""}
+];
+let kind="all",genre="all",query="",current=null;
+const grid=document.querySelector("#grid"),dialog=document.querySelector("#detail");
+function render(){
+ const filtered=items.filter(x=>(kind==="all"||x.kind===kind)&&(genre==="all"||x.genre===genre)&&x.title.toLowerCase().includes(query.toLowerCase()));
+ document.querySelector("#count").textContent=filtered.length+" titles";
+ grid.innerHTML=filtered.length?filtered.map(x=>`<article class="card" data-id="${x.id}"><div class="poster" style="--c1:${x.c1};--c2:${x.c2}">${x.emoji}</div><div class="meta"><strong>${x.title}</strong><small>${x.kind.toUpperCase()} • ${x.year} • ${x.genre}</small></div></article>`).join(""):'<div class="empty">कोई title नहीं मिला।</div>';
+ grid.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openItem(+c.dataset.id)));
+}
+function openItem(id){current=items.find(x=>x.id===id);document.querySelector("#detailTitle").textContent=current.title;document.querySelector("#detailMeta").textContent=current.kind.toUpperCase()+" • "+current.year+" • "+current.genre;document.querySelector("#detailDesc").textContent=current.desc;document.querySelector("#player").innerHTML="यहाँ अधिकृत वीडियो प्लेयर दिखाई देगा।";document.querySelector("#fav").textContent=(getFavs().includes(id)?"♥":"♡")+" Favourite";dialog.showModal()}
+function getFavs(){try{return JSON.parse(localStorage.getItem("cineanime-favs")||"[]")}catch{return []}}
+document.querySelector("#play").onclick=()=>{if(!current?.url){alert("पहले इस title के लिए वैध video URL जोड़ें।");return}document.querySelector("#player").innerHTML=`<video controls playsinline style="width:100%;max-height:100%" src="${current.url}"></video>`};
+document.querySelector("#fav").onclick=()=>{let f=getFavs();f=f.includes(current.id)?f.filter(x=>x!==current.id):[...f,current.id];localStorage.setItem("cineanime-favs",JSON.stringify(f));document.querySelector("#fav").textContent=(f.includes(current.id)?"♥":"♡")+" Favourite"};
+document.querySelector("#close").onclick=()=>dialog.close();
+document.querySelectorAll("[data-kind]").forEach(b=>b.onclick=()=>{kind=b.dataset.kind;document.querySelectorAll("[data-kind]").forEach(x=>x.classList.toggle("active",x===b));render()});
+document.querySelectorAll("[data-genre]").forEach(b=>b.onclick=()=>{genre=b.dataset.genre;document.querySelectorAll("[data-genre]").forEach(x=>x.classList.toggle("active",x===b));render()});
+document.querySelector("#search").oninput=e=>{query=e.target.value;render()};
+document.querySelector("#year").textContent=new Date().getFullYear();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+render();
+</script>
+</body></html>
